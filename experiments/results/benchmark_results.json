@@ -1,0 +1,688 @@
+{
+  "hardware": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python_version": "3.14.10",
+    "processor": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+    "cpu_cores": 12,
+    "total_ram_gb": 15.7,
+    "gpu_required": false
+  },
+  "datasets": {
+    "retail_sales": {
+      "rows": 120,
+      "columns": 5,
+      "ingestion_ms": 6.81,
+      "profiling_ms": 120.08,
+      "multi_agent_workflow_ms": 4244.78,
+      "multi_agent_peak_memory_mb": 21.352,
+      "equivalent_baseline": {
+        "elapsed_ms": 1906.06,
+        "peak_memory_mb": 0.427
+      },
+      "sql_accuracy_uncleaned": {
+        "total": 6,
+        "passed": 6,
+        "accuracy_pct": 100.0,
+        "details": [
+          {
+            "question": "how many rows",
+            "sql": "SELECT COUNT(*) AS row_count FROM data",
+            "passed": true
+          },
+          {
+            "question": "total revenue by region",
+            "sql": "SELECT TRIM(CAST(\"region\" AS VARCHAR)) AS \"region\", SUM(\"revenue\") AS total_revenue FROM data GROUP BY TRIM(CAST(\"region\" AS VARCHAR)) ORDER BY total_revenue DESC",
+            "passed": true
+          },
+          {
+            "question": "average revenue by product",
+            "sql": "SELECT TRIM(CAST(\"product\" AS VARCHAR)) AS \"product\", AVG(\"revenue\") AS avg_revenue FROM data GROUP BY TRIM(CAST(\"product\" AS VARCHAR)) ORDER BY avg_revenue DESC",
+            "passed": true
+          },
+          {
+            "question": "top 2 products by revenue",
+            "sql": "SELECT TRIM(CAST(\"product\" AS VARCHAR)) AS \"product\", SUM(\"revenue\") AS total_revenue FROM data GROUP BY TRIM(CAST(\"product\" AS VARCHAR)) ORDER BY total_revenue DESC LIMIT 2",
+            "passed": true
+          },
+          {
+            "question": "bottom 2 regions by revenue",
+            "sql": "SELECT TRIM(CAST(\"product\" AS VARCHAR)) AS \"product\", SUM(\"revenue\") AS total_revenue FROM data GROUP BY TRIM(CAST(\"product\" AS VARCHAR)) ORDER BY total_revenue ASC LIMIT 2",
+            "passed": true
+          },
+          {
+            "question": "show records where revenue > 1500",
+            "sql": "SELECT * FROM data WHERE \"revenue\" > 1500 LIMIT 100",
+            "passed": true
+          }
+        ]
+      },
+      "sql_accuracy_cleaned": {
+        "total": 6,
+        "passed": 6,
+        "accuracy_pct": 100.0,
+        "details": [
+          {
+            "question": "how many rows",
+            "sql": "SELECT COUNT(*) AS row_count FROM data",
+            "passed": true
+          },
+          {
+            "question": "total revenue by region",
+            "sql": "SELECT TRIM(CAST(\"region\" AS VARCHAR)) AS \"region\", SUM(\"revenue\") AS total_revenue FROM data GROUP BY TRIM(CAST(\"region\" AS VARCHAR)) ORDER BY total_revenue DESC",
+            "passed": true
+          },
+          {
+            "question": "average revenue by product",
+            "sql": "SELECT TRIM(CAST(\"product\" AS VARCHAR)) AS \"product\", AVG(\"revenue\") AS avg_revenue FROM data GROUP BY TRIM(CAST(\"product\" AS VARCHAR)) ORDER BY avg_revenue DESC",
+            "passed": true
+          },
+          {
+            "question": "top 2 products by revenue",
+            "sql": "SELECT TRIM(CAST(\"product\" AS VARCHAR)) AS \"product\", SUM(\"revenue\") AS total_revenue FROM data GROUP BY TRIM(CAST(\"product\" AS VARCHAR)) ORDER BY total_revenue DESC LIMIT 2",
+            "passed": true
+          },
+          {
+            "question": "bottom 2 regions by revenue",
+            "sql": "SELECT TRIM(CAST(\"product\" AS VARCHAR)) AS \"product\", SUM(\"revenue\") AS total_revenue FROM data GROUP BY TRIM(CAST(\"product\" AS VARCHAR)) ORDER BY total_revenue ASC LIMIT 2",
+            "passed": true
+          },
+          {
+            "question": "show records where revenue > 1500",
+            "sql": "SELECT * FROM data WHERE \"revenue\" > 1500 LIMIT 100",
+            "passed": true
+          }
+        ]
+      },
+      "reviewer_evaluation": {
+        "total_cases": 32,
+        "correct_decisions": 32,
+        "accuracy_pct": 100.0,
+        "by_category": {
+          "verified_fact": {
+            "total": 10,
+            "correct": 10
+          },
+          "numerical_mismatch": {
+            "total": 8,
+            "correct": 8
+          },
+          "causal_overreach": {
+            "total": 6,
+            "correct": 6
+          },
+          "insufficient_sample": {
+            "total": 4,
+            "correct": 4
+          },
+          "missing_evidence": {
+            "total": 4,
+            "correct": 4
+          }
+        }
+      },
+      "reviewer_unseen_evaluation": {
+        "total_cases": 16,
+        "correct_decisions": 16,
+        "accuracy_pct": 100.0,
+        "approved_count": 5,
+        "rejected_count": 11
+      },
+      "anomaly_comparison": {
+        "standard_isolation_forest": {
+          "ground_truth_count": 3,
+          "flagged_count": 6,
+          "tp": 3,
+          "fp": 3,
+          "fn": 0,
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.667
+        },
+        "detrended_isolation_forest": {
+          "ground_truth_count": 3,
+          "flagged_count": 6,
+          "tp": 3,
+          "fp": 3,
+          "fn": 0,
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.667
+        }
+      },
+      "forecasting": {
+        "target_col": "quantity",
+        "selected_model": "moving_average_baseline",
+        "beats_baseline": false,
+        "evaluations": {
+          "naive_baseline": {
+            "mae": 1.833,
+            "rmse": 2.121,
+            "mape": 9.93
+          },
+          "moving_average_baseline": {
+            "mae": 0.833,
+            "rmse": 1.354,
+            "mape": 4.7
+          },
+          "ridge_linear_trend": {
+            "mae": 3.026,
+            "rmse": 3.182,
+            "mape": 16.14
+          }
+        }
+      }
+    },
+    "app_catalog": {
+      "rows": 82,
+      "columns": 6,
+      "ingestion_ms": 4.4,
+      "profiling_ms": 100.33,
+      "multi_agent_workflow_ms": 3330.44,
+      "multi_agent_peak_memory_mb": 1.301,
+      "equivalent_baseline": {
+        "elapsed_ms": 1785.37,
+        "peak_memory_mb": 0.455
+      },
+      "sql_accuracy_uncleaned": {
+        "total": 4,
+        "passed": 4,
+        "accuracy_pct": 100.0,
+        "details": [
+          {
+            "question": "how many rows",
+            "sql": "SELECT COUNT(*) AS row_count FROM data",
+            "passed": true
+          },
+          {
+            "question": "average Rating by Category",
+            "sql": "SELECT TRIM(CAST(\"Category\" AS VARCHAR)) AS \"Category\", AVG(\"Rating\") AS avg_Rating FROM data GROUP BY TRIM(CAST(\"Category\" AS VARCHAR)) ORDER BY avg_Rating DESC",
+            "passed": true
+          },
+          {
+            "question": "top 3 Category by Rating",
+            "sql": "SELECT TRIM(CAST(\"Category\" AS VARCHAR)) AS \"Category\", SUM(\"Rating\") AS total_Rating FROM data GROUP BY TRIM(CAST(\"Category\" AS VARCHAR)) ORDER BY total_Rating DESC LIMIT 3",
+            "passed": true
+          },
+          {
+            "question": "show records in Tools",
+            "sql": "SELECT * FROM data WHERE LOWER(TRIM(CAST(\"Category\" AS VARCHAR))) = 'tools' LIMIT 100",
+            "passed": true
+          }
+        ]
+      },
+      "sql_accuracy_cleaned": {
+        "total": 4,
+        "passed": 4,
+        "accuracy_pct": 100.0,
+        "details": [
+          {
+            "question": "how many rows",
+            "sql": "SELECT COUNT(*) AS row_count FROM data",
+            "passed": true
+          },
+          {
+            "question": "average Rating by Category",
+            "sql": "SELECT TRIM(CAST(\"Category\" AS VARCHAR)) AS \"Category\", AVG(\"Rating\") AS avg_Rating FROM data GROUP BY TRIM(CAST(\"Category\" AS VARCHAR)) ORDER BY avg_Rating DESC",
+            "passed": true
+          },
+          {
+            "question": "top 3 Category by Rating",
+            "sql": "SELECT TRIM(CAST(\"Category\" AS VARCHAR)) AS \"Category\", SUM(\"Rating\") AS total_Rating FROM data GROUP BY TRIM(CAST(\"Category\" AS VARCHAR)) ORDER BY total_Rating DESC LIMIT 3",
+            "passed": true
+          },
+          {
+            "question": "show records in Tools",
+            "sql": "SELECT * FROM data WHERE LOWER(TRIM(CAST(\"Category\" AS VARCHAR))) = 'tools' LIMIT 100",
+            "passed": true
+          }
+        ]
+      },
+      "reviewer_evaluation": {
+        "total_cases": 32,
+        "correct_decisions": 32,
+        "accuracy_pct": 100.0,
+        "by_category": {
+          "verified_fact": {
+            "total": 10,
+            "correct": 10
+          },
+          "numerical_mismatch": {
+            "total": 8,
+            "correct": 8
+          },
+          "causal_overreach": {
+            "total": 6,
+            "correct": 6
+          },
+          "insufficient_sample": {
+            "total": 4,
+            "correct": 4
+          },
+          "missing_evidence": {
+            "total": 4,
+            "correct": 4
+          }
+        }
+      },
+      "reviewer_unseen_evaluation": {
+        "total_cases": 16,
+        "correct_decisions": 16,
+        "accuracy_pct": 100.0,
+        "approved_count": 5,
+        "rejected_count": 11
+      },
+      "anomaly_comparison": null,
+      "forecasting": {
+        "target_col": "Rating",
+        "selected_model": "ridge_linear_trend",
+        "beats_baseline": true,
+        "evaluations": {
+          "naive_baseline": {
+            "mae": 0.718,
+            "rmse": 0.751,
+            "mape": 16.62
+          },
+          "moving_average_baseline": {
+            "mae": 0.683,
+            "rmse": 0.708,
+            "mape": 15.88
+          },
+          "ridge_linear_trend": {
+            "mae": 0.554,
+            "rmse": 0.567,
+            "mape": 13.19
+          }
+        }
+      }
+    },
+    "healthcare_vitals": {
+      "rows": 100,
+      "columns": 6,
+      "ingestion_ms": 6.91,
+      "profiling_ms": 98.16,
+      "multi_agent_workflow_ms": 2894.29,
+      "multi_agent_peak_memory_mb": 1.471,
+      "equivalent_baseline": {
+        "elapsed_ms": 1863.96,
+        "peak_memory_mb": 0.436
+      },
+      "sql_accuracy_uncleaned": {
+        "total": 4,
+        "passed": 4,
+        "accuracy_pct": 100.0,
+        "details": [
+          {
+            "question": "how many rows",
+            "sql": "SELECT COUNT(*) AS row_count FROM data",
+            "passed": true
+          },
+          {
+            "question": "average systolic_bp by department",
+            "sql": "SELECT TRIM(CAST(\"department\" AS VARCHAR)) AS \"department\", AVG(\"systolic_bp\") AS avg_systolic_bp FROM data GROUP BY TRIM(CAST(\"department\" AS VARCHAR)) ORDER BY avg_systolic_bp DESC",
+            "passed": true
+          },
+          {
+            "question": "maximum heart_rate by department",
+            "sql": "SELECT TRIM(CAST(\"department\" AS VARCHAR)) AS \"department\", MAX(\"heart_rate\") AS max_heart_rate FROM data GROUP BY TRIM(CAST(\"department\" AS VARCHAR)) ORDER BY max_heart_rate DESC",
+            "passed": true
+          },
+          {
+            "question": "show records where systolic_bp > 150",
+            "sql": "SELECT * FROM data WHERE \"systolic_bp\" > 150 LIMIT 100",
+            "passed": true
+          }
+        ]
+      },
+      "sql_accuracy_cleaned": {
+        "total": 4,
+        "passed": 4,
+        "accuracy_pct": 100.0,
+        "details": [
+          {
+            "question": "how many rows",
+            "sql": "SELECT COUNT(*) AS row_count FROM data",
+            "passed": true
+          },
+          {
+            "question": "average systolic_bp by department",
+            "sql": "SELECT TRIM(CAST(\"department\" AS VARCHAR)) AS \"department\", AVG(\"systolic_bp\") AS avg_systolic_bp FROM data GROUP BY TRIM(CAST(\"department\" AS VARCHAR)) ORDER BY avg_systolic_bp DESC",
+            "passed": true
+          },
+          {
+            "question": "maximum heart_rate by department",
+            "sql": "SELECT TRIM(CAST(\"department\" AS VARCHAR)) AS \"department\", MAX(\"heart_rate\") AS max_heart_rate FROM data GROUP BY TRIM(CAST(\"department\" AS VARCHAR)) ORDER BY max_heart_rate DESC",
+            "passed": true
+          },
+          {
+            "question": "show records where systolic_bp > 150",
+            "sql": "SELECT * FROM data WHERE \"systolic_bp\" > 150 LIMIT 100",
+            "passed": true
+          }
+        ]
+      },
+      "reviewer_evaluation": {
+        "total_cases": 32,
+        "correct_decisions": 32,
+        "accuracy_pct": 100.0,
+        "by_category": {
+          "verified_fact": {
+            "total": 10,
+            "correct": 10
+          },
+          "numerical_mismatch": {
+            "total": 8,
+            "correct": 8
+          },
+          "causal_overreach": {
+            "total": 6,
+            "correct": 6
+          },
+          "insufficient_sample": {
+            "total": 4,
+            "correct": 4
+          },
+          "missing_evidence": {
+            "total": 4,
+            "correct": 4
+          }
+        }
+      },
+      "reviewer_unseen_evaluation": {
+        "total_cases": 16,
+        "correct_decisions": 16,
+        "accuracy_pct": 100.0,
+        "approved_count": 5,
+        "rejected_count": 11
+      },
+      "anomaly_comparison": {
+        "standard_isolation_forest": {
+          "ground_truth_count": 4,
+          "flagged_count": 5,
+          "tp": 4,
+          "fp": 1,
+          "fn": 0,
+          "precision": 0.8,
+          "recall": 1.0,
+          "f1": 0.889
+        },
+        "detrended_isolation_forest": {
+          "ground_truth_count": 4,
+          "flagged_count": 5,
+          "tp": 4,
+          "fp": 1,
+          "fn": 0,
+          "precision": 0.8,
+          "recall": 1.0,
+          "f1": 0.889
+        }
+      },
+      "forecasting": {
+        "target_col": "age",
+        "selected_model": "moving_average_baseline",
+        "beats_baseline": false,
+        "evaluations": {
+          "naive_baseline": {
+            "mae": 19.167,
+            "rmse": 26.636,
+            "mape": 40.24
+          },
+          "moving_average_baseline": {
+            "mae": 15.5,
+            "rmse": 19.292,
+            "mape": 51.1
+          },
+          "ridge_linear_trend": {
+            "mae": 17.755,
+            "rmse": 20.292,
+            "mape": 60.58
+          }
+        }
+      }
+    },
+    "ecommerce_traffic": {
+      "rows": 90,
+      "columns": 5,
+      "ingestion_ms": 5.25,
+      "profiling_ms": 43.29,
+      "multi_agent_workflow_ms": 3374.97,
+      "multi_agent_peak_memory_mb": 1.786,
+      "equivalent_baseline": {
+        "elapsed_ms": 2143.84,
+        "peak_memory_mb": 0.441
+      },
+      "sql_accuracy_uncleaned": {
+        "total": 5,
+        "passed": 5,
+        "accuracy_pct": 100.0,
+        "details": [
+          {
+            "question": "how many rows",
+            "sql": "SELECT COUNT(*) AS row_count FROM data",
+            "passed": true
+          },
+          {
+            "question": "total revenue by channel",
+            "sql": "SELECT TRIM(CAST(\"channel\" AS VARCHAR)) AS \"channel\", SUM(\"revenue\") AS total_revenue FROM data GROUP BY TRIM(CAST(\"channel\" AS VARCHAR)) ORDER BY total_revenue DESC",
+            "passed": true
+          },
+          {
+            "question": "average sessions by channel",
+            "sql": "SELECT TRIM(CAST(\"channel\" AS VARCHAR)) AS \"channel\", AVG(\"sessions\") AS avg_sessions FROM data GROUP BY TRIM(CAST(\"channel\" AS VARCHAR)) ORDER BY avg_sessions DESC",
+            "passed": true
+          },
+          {
+            "question": "top 2 channel by conversions",
+            "sql": "SELECT TRIM(CAST(\"channel\" AS VARCHAR)) AS \"channel\", SUM(\"conversions\") AS total_conversions FROM data GROUP BY TRIM(CAST(\"channel\" AS VARCHAR)) ORDER BY total_conversions DESC LIMIT 2",
+            "passed": true
+          },
+          {
+            "question": "monthly revenue trend",
+            "sql": "SELECT DATE_TRUNC('month', TRY_CAST(\"date\" AS TIMESTAMP)) AS month, SUM(\"revenue\") AS total_revenue FROM data WHERE TRY_CAST(\"date\" AS TIMESTAMP) IS NOT NULL GROUP BY month ORDER BY month ASC",
+            "passed": true
+          }
+        ]
+      },
+      "sql_accuracy_cleaned": {
+        "total": 5,
+        "passed": 5,
+        "accuracy_pct": 100.0,
+        "details": [
+          {
+            "question": "how many rows",
+            "sql": "SELECT COUNT(*) AS row_count FROM data",
+            "passed": true
+          },
+          {
+            "question": "total revenue by channel",
+            "sql": "SELECT TRIM(CAST(\"channel\" AS VARCHAR)) AS \"channel\", SUM(\"revenue\") AS total_revenue FROM data GROUP BY TRIM(CAST(\"channel\" AS VARCHAR)) ORDER BY total_revenue DESC",
+            "passed": true
+          },
+          {
+            "question": "average sessions by channel",
+            "sql": "SELECT TRIM(CAST(\"channel\" AS VARCHAR)) AS \"channel\", AVG(\"sessions\") AS avg_sessions FROM data GROUP BY TRIM(CAST(\"channel\" AS VARCHAR)) ORDER BY avg_sessions DESC",
+            "passed": true
+          },
+          {
+            "question": "top 2 channel by conversions",
+            "sql": "SELECT TRIM(CAST(\"channel\" AS VARCHAR)) AS \"channel\", SUM(\"conversions\") AS total_conversions FROM data GROUP BY TRIM(CAST(\"channel\" AS VARCHAR)) ORDER BY total_conversions DESC LIMIT 2",
+            "passed": true
+          },
+          {
+            "question": "monthly revenue trend",
+            "sql": "SELECT DATE_TRUNC('month', TRY_CAST(\"date\" AS TIMESTAMP)) AS month, SUM(\"revenue\") AS total_revenue FROM data WHERE TRY_CAST(\"date\" AS TIMESTAMP) IS NOT NULL GROUP BY month ORDER BY month ASC",
+            "passed": true
+          }
+        ]
+      },
+      "reviewer_evaluation": {
+        "total_cases": 32,
+        "correct_decisions": 32,
+        "accuracy_pct": 100.0,
+        "by_category": {
+          "verified_fact": {
+            "total": 10,
+            "correct": 10
+          },
+          "numerical_mismatch": {
+            "total": 8,
+            "correct": 8
+          },
+          "causal_overreach": {
+            "total": 6,
+            "correct": 6
+          },
+          "insufficient_sample": {
+            "total": 4,
+            "correct": 4
+          },
+          "missing_evidence": {
+            "total": 4,
+            "correct": 4
+          }
+        }
+      },
+      "reviewer_unseen_evaluation": {
+        "total_cases": 16,
+        "correct_decisions": 16,
+        "accuracy_pct": 100.0,
+        "approved_count": 5,
+        "rejected_count": 11
+      },
+      "anomaly_comparison": null,
+      "forecasting": {
+        "target_col": "sessions",
+        "selected_model": "ridge_linear_trend",
+        "beats_baseline": true,
+        "evaluations": {
+          "naive_baseline": {
+            "mae": 44.5,
+            "rmse": 47.531,
+            "mape": 4.34
+          },
+          "moving_average_baseline": {
+            "mae": 52.944,
+            "rmse": 56.65,
+            "mape": 5.13
+          },
+          "ridge_linear_trend": {
+            "mae": 19.088,
+            "rmse": 27.682,
+            "mape": 1.91
+          }
+        }
+      }
+    },
+    "hr_survey": {
+      "rows": 60,
+      "columns": 5,
+      "ingestion_ms": 6.91,
+      "profiling_ms": 67.68,
+      "multi_agent_workflow_ms": 781.15,
+      "multi_agent_peak_memory_mb": 0.925,
+      "equivalent_baseline": {
+        "elapsed_ms": 230.48,
+        "peak_memory_mb": 0.09
+      },
+      "sql_accuracy_uncleaned": {
+        "total": 4,
+        "passed": 4,
+        "accuracy_pct": 100.0,
+        "details": [
+          {
+            "question": "how many rows",
+            "sql": "SELECT COUNT(*) AS row_count FROM data",
+            "passed": true
+          },
+          {
+            "question": "unique department",
+            "sql": "SELECT TRIM(CAST(\"department\" AS VARCHAR)) AS \"department\", COUNT(*) AS record_count FROM data GROUP BY TRIM(CAST(\"department\" AS VARCHAR)) ORDER BY record_count DESC LIMIT 100",
+            "passed": true
+          },
+          {
+            "question": "unique satisfaction",
+            "sql": "SELECT TRIM(CAST(\"satisfaction\" AS VARCHAR)) AS \"satisfaction\", COUNT(*) AS record_count FROM data GROUP BY TRIM(CAST(\"satisfaction\" AS VARCHAR)) ORDER BY record_count DESC LIMIT 100",
+            "passed": true
+          },
+          {
+            "question": "show records in Engineering",
+            "sql": "SELECT * FROM data WHERE LOWER(TRIM(CAST(\"department\" AS VARCHAR))) = 'engineering' LIMIT 100",
+            "passed": true
+          }
+        ]
+      },
+      "sql_accuracy_cleaned": {
+        "total": 4,
+        "passed": 4,
+        "accuracy_pct": 100.0,
+        "details": [
+          {
+            "question": "how many rows",
+            "sql": "SELECT COUNT(*) AS row_count FROM data",
+            "passed": true
+          },
+          {
+            "question": "unique department",
+            "sql": "SELECT TRIM(CAST(\"department\" AS VARCHAR)) AS \"department\", COUNT(*) AS record_count FROM data GROUP BY TRIM(CAST(\"department\" AS VARCHAR)) ORDER BY record_count DESC LIMIT 100",
+            "passed": true
+          },
+          {
+            "question": "unique satisfaction",
+            "sql": "SELECT TRIM(CAST(\"satisfaction\" AS VARCHAR)) AS \"satisfaction\", COUNT(*) AS record_count FROM data GROUP BY TRIM(CAST(\"satisfaction\" AS VARCHAR)) ORDER BY record_count DESC LIMIT 100",
+            "passed": true
+          },
+          {
+            "question": "show records in Engineering",
+            "sql": "SELECT * FROM data WHERE LOWER(TRIM(CAST(\"department\" AS VARCHAR))) = 'engineering' LIMIT 100",
+            "passed": true
+          }
+        ]
+      },
+      "reviewer_evaluation": {
+        "total_cases": 32,
+        "correct_decisions": 32,
+        "accuracy_pct": 100.0,
+        "by_category": {
+          "verified_fact": {
+            "total": 10,
+            "correct": 10
+          },
+          "numerical_mismatch": {
+            "total": 8,
+            "correct": 8
+          },
+          "causal_overreach": {
+            "total": 6,
+            "correct": 6
+          },
+          "insufficient_sample": {
+            "total": 4,
+            "correct": 4
+          },
+          "missing_evidence": {
+            "total": 4,
+            "correct": 4
+          }
+        }
+      },
+      "reviewer_unseen_evaluation": {
+        "total_cases": 16,
+        "correct_decisions": 16,
+        "accuracy_pct": 100.0,
+        "approved_count": 5,
+        "rejected_count": 11
+      },
+      "anomaly_comparison": null,
+      "forecasting": null
+    }
+  },
+  "summary": {
+    "total_sql_questions": 23,
+    "sql_uncleaned_accuracy_pct": 100.0,
+    "sql_cleaned_accuracy_pct": 100.0
+  },
+  "generated_charts": [
+    "experiments\\results\\execution_time_comparison.html",
+    "experiments\\results\\sql_and_reviewer_accuracy.html",
+    "experiments\\results\\forecast_rmse_comparison.html"
+  ]
+}
